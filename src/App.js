@@ -5,6 +5,8 @@ import {
   Statistic,
   Grid,
   Icon,
+  Form,
+  Button,
 } from 'semantic-ui-react';
 import './App.css';
 
@@ -83,6 +85,30 @@ function App() {
           </Grid.Row>
         </Grid>
       </Segment>
+
+      <Header as="h3">Add new Transaction</Header>
+      <Form unstackable>
+        <Form.Group>
+          <Form.Input
+            icon="tags"
+            width={12}
+            label="Description"
+            placeholder="New shiny thing"
+          />
+          <Form.Input
+            icon="dollar"
+            width={4}
+            label="Value"
+            placeholder="100.00"
+            iconPosition="left"
+          />
+        </Form.Group>
+        <Button.Group style={{ marginTop: 20 }}>
+          <Button>Cancel</Button>
+          <Button.Or />
+          <Button primary>Ok</Button>
+        </Button.Group>
+      </Form>
     </Container>
   );
 }
