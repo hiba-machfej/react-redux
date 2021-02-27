@@ -1,4 +1,4 @@
-import { Container, Header, Statistic } from 'semantic-ui-react';
+import { Container, Header, Segment, Statistic, Grid } from 'semantic-ui-react';
 import './App.css';
 
 function App() {
@@ -9,6 +9,28 @@ function App() {
         <Statistic.Label>Your balance</Statistic.Label>
         <Statistic.Value>2,550.53</Statistic.Value>
       </Statistic>
+      <Segment textAlign="center">
+        <Grid columns={2} divided>
+          <Grid.Row>
+            <Grid.Column>
+              <Statistic size="tiny" color="green">
+                <Statistic.Label style={{ textAlign: 'left' }}>
+                  My Incoming:
+                </Statistic.Label>
+                <Statistic.Value>1,045.53</Statistic.Value>
+              </Statistic>
+            </Grid.Column>
+            <Grid.Column>
+              <Statistic size="tiny" color="red">
+                <Statistic.Label style={{ textAlign: 'left' }}>
+                  Expenses:
+                </Statistic.Label>
+                <Statistic.Value>623</Statistic.Value>
+              </Statistic>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Segment>
     </Container>
   );
 }
