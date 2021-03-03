@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ButtonSaveOrCancel from './ButtonSaveOrCancel';
-import { Form } from 'semantic-ui-react';
+import { Checkbox, Form, Segment } from 'semantic-ui-react';
 import useInputState from './hooks/useInputState';
 
 function NewEntryForm({ addEntry }) {
@@ -10,10 +10,11 @@ function NewEntryForm({ addEntry }) {
     resetDescription,
   ] = useInputState('');
   const [value, handleValueChange, resetValue] = useInputState('');
+  const [isExpense, setIsExpense] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addEntry(description, value);
+    addEntry(description, value, isExpense);
     resetDescription();
     resetValue();
   };
@@ -39,6 +40,16 @@ function NewEntryForm({ addEntry }) {
           onChange={handleValueChange}
         />
       </Form.Group>
+      <Segment compact>
+        <Checkbox
+          toggle
+          label="is expense"
+          checked={isExpense}
+          onChange={() => {
+            setIsExpense(!isExpense);
+          }}
+        />
+      </Segment>
       <ButtonSaveOrCancel handleSubmit={handleSubmit} />
     </Form>
   );
