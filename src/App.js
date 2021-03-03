@@ -4,26 +4,30 @@ import MainHeader from './components/MainHeader';
 import NewEntryForm from './components/NewEntryForm';
 import StatisticFields from './components/StatisticFields';
 import DisplayBalances from './components/DisplayBalances';
-import EntryLine from './components/EntryLine';
+import EntryLines from './components/EntryLines';
 import './App.css';
 
 const initialEntries = [
   {
+    id: 1,
     description: 'Work income',
     value: '$1000,00',
     isExpense: false,
   },
   {
+    id: 2,
     description: 'Water Bill',
     value: '$20,00',
     isExpense: true,
   },
   {
+    id: 3,
     description: 'Rent',
     value: '$300,00',
     isExpense: true,
   },
   {
+    id: 4,
     description: 'Power Bill',
     value: '$50,00',
     isExpense: true,
@@ -32,6 +36,10 @@ const initialEntries = [
 
 function App() {
   const [entries, setEntries] = useState(initialEntries);
+  const deleteEntry = (id) => {
+    const result = entries.filter((entry) => entry.id !== id);
+    setEntries(result);
+  };
   return (
     <Container>
       <MainHeader title="Budget" />
@@ -40,11 +48,10 @@ function App() {
       <DisplayBalances />
 
       <MainHeader title="History" type="h3" />
-      <EntryLine description="income" value="$10.99" />
-      <EntryLine description="expense" value="$10.99" isExpense={true} />
+      <EntryLines entries={entries} deleteEntry={deleteEntry} />
 
       <MainHeader title="Add new Transaction" type="h3" />
-      <NewEntryForm />
+      <NewEntryForm setEntries={setEntries} />
     </Container>
   );
 }
