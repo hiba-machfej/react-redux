@@ -1,8 +1,23 @@
 import React from 'react';
 import ButtonSaveOrCancel from './ButtonSaveOrCancel';
 import { Form } from 'semantic-ui-react';
+import useInputState from './hooks/useInputState';
 
-function NewEntryForm() {
+function NewEntryForm({ addEntry }) {
+  const [
+    description,
+    handleDescriptionChange,
+    resetDescription,
+  ] = useInputState('');
+  const [value, handleValueChange, resetValue] = useInputState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addEntry(description, value);
+    resetDescription();
+    resetValue();
+  };
+
   return (
     <Form unstackable>
       <Form.Group>
@@ -11,6 +26,8 @@ function NewEntryForm() {
           width={12}
           label="Description"
           placeholder="New shiny thing"
+          value={description}
+          onChange={handleDescriptionChange}
         />
         <Form.Input
           icon="dollar"
@@ -18,9 +35,11 @@ function NewEntryForm() {
           label="Value"
           placeholder="100.00"
           iconPosition="left"
+          value={value}
+          onChange={handleValueChange}
         />
       </Form.Group>
-      <ButtonSaveOrCancel />
+      <ButtonSaveOrCancel handleSubmit={handleSubmit} />
     </Form>
   );
 }
