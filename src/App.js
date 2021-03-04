@@ -12,25 +12,25 @@ const initialEntries = [
   {
     id: 1,
     description: 'Work income',
-    value: '$1000,00',
+    value: 1000,
     isExpense: false,
   },
   {
     id: 2,
     description: 'Water Bill',
-    value: '$20,00',
+    value: 20,
     isExpense: true,
   },
   {
     id: 3,
     description: 'Rent',
-    value: '$300,00',
+    value: 300,
     isExpense: true,
   },
   {
     id: 4,
     description: 'Power Bill',
-    value: '$50,00',
+    value: 50,
     isExpense: true,
   },
 ];
@@ -43,6 +43,7 @@ function App() {
   const [isExpense, setIsExpense] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [entryId, setEntryId] = useState();
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     if (!isOpen && entryId) {
@@ -54,7 +55,23 @@ function App() {
       setEntries(newEntries);
       resetEntry();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
+
+  useEffect(() => {
+    let totalIncome = 0;
+    let totalExpense = 0;
+    entries.map((entry) => {
+      if (entry.isExpense) {
+        return (totalExpense += entry.value);
+      } else {
+        return (totalIncome += entry.value);
+      }
+    });
+    let total = totalIncome - totalExpense;
+    setTotal(total);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, entries);
 
   const deleteEntry = (id) => {
     const result = entries.filter((entry) => entry.id !== id);
@@ -99,7 +116,7 @@ function App() {
   return (
     <Container>
       <MainHeader title="Budget" />
-      <StatisticFields size="small" label="Your balance" value="2,550.53" />
+      <StatisticFields size="small" label="Your balance" value={total} />
 
       <DisplayBalances />
 
