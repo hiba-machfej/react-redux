@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 
-function ButtonSaveOrCancel({ handleSubmit }) {
+const ButtonSaveOrCancel = ({ handleSubmit }) => {
   return (
     <Button.Group style={{ marginTop: 20 }}>
       <Button>Cancel</Button>
@@ -11,6 +11,6 @@ function ButtonSaveOrCancel({ handleSubmit }) {
       </Button>
     </Button.Group>
   );
-}
+};
 
 export default ButtonSaveOrCancel;

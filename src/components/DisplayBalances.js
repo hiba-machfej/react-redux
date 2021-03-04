@@ -2,7 +2,7 @@ import React from 'react';
 import { Segment, Grid } from 'semantic-ui-react';
 import StatisticFields from './StatisticFields';
 
-function DisplayBalances() {
+const DisplayBalances = () => {
   return (
     <Segment textAlign="center">
       <Grid columns={2} divided>
@@ -27,6 +27,6 @@ function DisplayBalances() {
       </Grid>
     </Segment>
   );
-}
+};
 
 export default DisplayBalances;
