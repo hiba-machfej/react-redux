@@ -7,6 +7,7 @@ import DisplayBalances from './components/DisplayBalances';
 import EntryLines from './components/EntryLines';
 import ModalEdit from './components/ModalEdit';
 import './App.css';
+import { createStore } from 'redux';
 
 const initialEntries = [
   {
@@ -73,6 +74,28 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, entries);
 
+  ///
+  const store = createStore((state = initialEntries, action) => {
+    switch (action.type) {
+      case 'ADD_ENTRY':
+        const newEntries = entries.concat({ ...action.payload });
+        return newEntries;
+        break;
+      default:
+        return state;
+    }
+    return state;
+  });
+  console.log(store.getState());
+  const payload = {
+    id: 5,
+    description: 'hello from redux',
+    value: 100,
+    isExpense: false,
+  };
+  store.dispatch({ type: 'ADD_ENTRY', payload });
+  console.log(store.getState());
+  ///
   const deleteEntry = (id) => {
     const result = entries.filter((entry) => entry.id !== id);
     setEntries(result);
