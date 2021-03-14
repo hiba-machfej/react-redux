@@ -1,43 +1,16 @@
 import { Container } from 'semantic-ui-react';
 import { useEffect, useState } from 'react';
+import './App.css';
 import MainHeader from './components/MainHeader';
 import NewEntryForm from './components/NewEntryForm';
 import StatisticFields from './components/StatisticFields';
 import DisplayBalances from './components/DisplayBalances';
 import EntryLines from './components/EntryLines';
 import ModalEdit from './components/ModalEdit';
-import './App.css';
-import { createStore } from 'redux';
-
-const initialEntries = [
-  {
-    id: 1,
-    description: 'Work income',
-    value: 1000,
-    isExpense: false,
-  },
-  {
-    id: 2,
-    description: 'Water Bill',
-    value: 20,
-    isExpense: true,
-  },
-  {
-    id: 3,
-    description: 'Rent',
-    value: 300,
-    isExpense: true,
-  },
-  {
-    id: 4,
-    description: 'Power Bill',
-    value: 50,
-    isExpense: true,
-  },
-];
+import { useSelector } from 'react-redux';
 
 function App() {
-  const [entries, setEntries] = useState(initialEntries);
+  // const [entries, setEntries] = useState(initialEntries);
 
   const [description, setDescription] = useState('');
   const [value, setValue] = useState('');
@@ -45,6 +18,7 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [entryId, setEntryId] = useState();
   const [total, setTotal] = useState(0);
+  const entries = useSelector((state) => state.entries);
 
   useEffect(() => {
     if (!isOpen && entryId) {
@@ -53,7 +27,7 @@ function App() {
       newEntries[index].description = description;
       newEntries[index].value = value;
       newEntries[index].isExpense = isExpense;
-      setEntries(newEntries);
+      // setEntries(newEntries);
       resetEntry();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -74,33 +48,6 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, entries);
 
-  ///
-  const store = createStore((state = initialEntries, action) => {
-    switch (action.type) {
-      case 'ADD_ENTRY':
-        const newEntries = entries.concat({ ...action.payload });
-        return newEntries;
-        break;
-      default:
-        return state;
-    }
-    return state;
-  });
-  console.log(store.getState());
-  const payload = {
-    id: 5,
-    description: 'hello from redux',
-    value: 100,
-    isExpense: false,
-  };
-  store.dispatch({ type: 'ADD_ENTRY', payload });
-  console.log(store.getState());
-  ///
-  const deleteEntry = (id) => {
-    const result = entries.filter((entry) => entry.id !== id);
-    setEntries(result);
-  };
-
   const editEntry = (id) => {
     if (id) {
       const index = entries.findIndex((entry) => entry.id === id);
@@ -120,7 +67,7 @@ function App() {
       value,
       isExpense,
     });
-    setEntries(result);
+    // setEntries(result);
     resetEntry();
   };
 
@@ -144,11 +91,7 @@ function App() {
       <DisplayBalances />
 
       <MainHeader title="History" type="h3" />
-      <EntryLines
-        entries={entries}
-        deleteEntry={deleteEntry}
-        editEntry={editEntry}
-      />
+      <EntryLines entries={entries} editEntry={editEntry} />
 
       <MainHeader title="Add new Transaction" type="h3" />
       <NewEntryForm
