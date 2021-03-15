@@ -11,110 +11,49 @@ import { useSelector } from 'react-redux';
 
 function App() {
   // const [entries, setEntries] = useState(initialEntries);
-
-  const [description, setDescription] = useState('');
-  const [value, setValue] = useState('');
-  const [isExpense, setIsExpense] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
-  const [entryId, setEntryId] = useState();
+  const [incomeTotal, setIncomeTotal] = useState(0);
+  const [expenseTotal, setExpenseTotal] = useState(0);
   const [total, setTotal] = useState(0);
+  const [entry, setEntry] = useState();
   const entries = useSelector((state) => state.entries);
+  const { isOpen, id } = useSelector((state) => state.modals);
 
   useEffect(() => {
-    if (!isOpen && entryId) {
-      const index = entries.findIndex((entry) => entry.id === entryId);
-      const newEntries = [...entries];
-      newEntries[index].description = description;
-      newEntries[index].value = value;
-      newEntries[index].isExpense = isExpense;
-      // setEntries(newEntries);
-      resetEntry();
-    }
+    const index = entries.findIndex((entry) => entry.id === id);
+    setEntry(entries[index]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
+  }, [isOpen, id]);
 
   useEffect(() => {
-    let totalIncome = 0;
-    let totalExpense = 0;
+    let totalIncomes = 0;
+    let totalExpenses = 0;
     entries.map((entry) => {
       if (entry.isExpense) {
-        return (totalExpense += entry.value);
+        return (totalExpenses += entry.value);
       } else {
-        return (totalIncome += entry.value);
+        return (totalIncomes += entry.value);
       }
     });
-    let total = totalIncome - totalExpense;
-    setTotal(total);
+    setTotal(totalIncomes - totalExpenses);
+    setExpenseTotal(totalExpenses);
+    setIncomeTotal(totalIncomes);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, entries);
+  }, [entries]);
 
-  const editEntry = (id) => {
-    if (id) {
-      const index = entries.findIndex((entry) => entry.id === id);
-      const entry = entries[index];
-      setEntryId(id);
-      setDescription(entry.description);
-      setValue(entry.value);
-      setIsExpense(entry.isExpense);
-      setIsOpen(true);
-    }
-  };
-  const addEntry = () => {
-    // const result = [...entries, { id: entries.length + 1, description, value }];
-    const result = entries.concat({
-      id: entries.length + 1,
-      description,
-      value,
-      isExpense,
-    });
-    // setEntries(result);
-    resetEntry();
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addEntry(description, value, isExpense);
-    setValue('');
-    setDescription('');
-  };
-
-  const resetEntry = () => {
-    setDescription('');
-    setValue('');
-    setIsExpense(true);
-  };
   return (
     <Container>
       <MainHeader title="Budget" />
       <StatisticFields size="small" label="Your balance" value={total} />
 
-      <DisplayBalances />
+      <DisplayBalances incomeTotal={incomeTotal} expenseTotal={expenseTotal} />
 
       <MainHeader title="History" type="h3" />
-      <EntryLines entries={entries} editEntry={editEntry} />
+      <EntryLines entries={entries} />
 
       <MainHeader title="Add new Transaction" type="h3" />
-      <NewEntryForm
-        addEntry={addEntry}
-        setDescription={setDescription}
-        setValue={setValue}
-        setIsExpense={setIsExpense}
-        description={description}
-        value={value}
-        isExpense={isExpense}
-        handleSubmit={handleSubmit}
-      />
-      <ModalEdit
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        setDescription={setDescription}
-        setValue={setValue}
-        setIsExpense={setIsExpense}
-        description={description}
-        value={value}
-        isExpense={isExpense}
-        handleSubmit={handleSubmit}
-      />
+      <NewEntryForm />
+      <ModalEdit isOpen={isOpen} {...entry} />
     </Container>
   );
 }

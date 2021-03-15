@@ -25,7 +25,7 @@ const initialEntries = [
   },
 ];
 
-const EntriesReducers = (state = initialEntries, action) => {
+const entriesReducers = (state = initialEntries, action) => {
   let newEntries;
   switch (action.type) {
     case 'ADD_ENTRY':
@@ -36,9 +36,17 @@ const EntriesReducers = (state = initialEntries, action) => {
       newEntries = state.filter((entry) => entry.id !== action.payload.id);
       return newEntries;
 
+    case 'UPDATE_ENTRY':
+      newEntries = [...state];
+      const index = newEntries.findIndex(
+        (entry) => entry.id === action.payload.id
+      );
+      newEntries[index] = { ...action.payload.entry };
+      return newEntries;
+
     default:
       return state;
   }
 };
 
-export default EntriesReducers;
+export default entriesReducers;

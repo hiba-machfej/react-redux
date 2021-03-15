@@ -5,9 +5,9 @@ const EntryForm = ({
   setDescription,
   setValue,
   setIsExpense,
-  isExpense,
-  value,
   description,
+  value,
+  isExpense,
 }) => {
   return (
     <Fragment>

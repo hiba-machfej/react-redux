@@ -2,7 +2,7 @@ import React from 'react';
 import { Segment, Grid } from 'semantic-ui-react';
 import StatisticFields from './StatisticFields';
 
-const DisplayBalances = () => {
+const DisplayBalances = ({ incomeTotal, expenseTotal }) => {
   return (
     <Segment textAlign="center">
       <Grid columns={2} divided>
@@ -12,7 +12,7 @@ const DisplayBalances = () => {
               size="tiny"
               color="green"
               label="Income:"
-              value="1,045.53"
+              value={incomeTotal}
             />
           </Grid.Column>
           <Grid.Column>
@@ -20,7 +20,7 @@ const DisplayBalances = () => {
               size="tiny"
               color="red"
               label="Expenses:"
-              value="623"
+              value={expenseTotal}
             />
           </Grid.Column>
         </Grid.Row>
