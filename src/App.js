@@ -8,6 +8,8 @@ import DisplayBalances from './components/DisplayBalances';
 import EntryLines from './components/EntryLines';
 import ModalEdit from './components/ModalEdit';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { getAllEntries } from './actions/entries.action';
 
 function App() {
   // const [entries, setEntries] = useState(initialEntries);
@@ -40,6 +42,16 @@ function App() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entries]);
+  // const fetchIntitalData = async () => {
+  //   const result = await axios.get(' http://localhost:3001/entries');
+  //   console.log(result);
+  // };
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllEntries());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container>
