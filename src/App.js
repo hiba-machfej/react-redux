@@ -50,8 +50,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getAllEntries());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container>
